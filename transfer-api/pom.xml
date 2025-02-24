@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rivaldo</groupId>
-	<artifactId>agendamento_tranferencia_financeiro</artifactId>
+	<artifactId>financial_transfer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>agendamento_tranferencia_financeiro</name>
-	<description>Agendamento tranferencia financeiro</description>
+	<name>financial_transfer</name>
+	<description>Financial transfer scheduling system</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
