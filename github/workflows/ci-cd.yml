@@ -21,6 +21,14 @@ jobs:
         with:
           java-version: "11"
 
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Build and test Spring Boot
         run: |
           cd transfer/transfer-api
@@ -38,6 +46,14 @@ jobs:
         with:
           node-version: "14"
 
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: |
           cd transfer/transfer-ui
@@ -46,4 +62,4 @@ jobs:
       - name: Build and test Angular
         run: |
           cd transfer/transfer-ui
-          npm run test -- --watch=false  # Execute os testes do Angular
+          npm run test -- --watch=false --bail  # Execute os testes do Angular, parando na primeira falha
