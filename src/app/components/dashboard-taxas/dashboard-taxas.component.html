@@ -1,0 +1,23 @@
+<div *ngIf="loading" class="loading">
+  <app-loading></app-loading>
+</div>
+<div class="container mt-5 margin" *ngIf="loading==false">
+  <h2 class="text-center mb-4">Dashboard de Taxas</h2>
+
+  <div class="mb-4">
+    <h4 class="text-center">Total de Taxas por Conta de Origem</h4>
+    <canvas baseChart
+            [datasets]="[{ data: chartData, label: 'Taxas' }]"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            chartType="bar">
+    </canvas>
+  </div>
+
+  <div class="tooltip-container">
+    <button type="submit" class="btn btn-primary" routerLink="/transferencia">
+      <i class="fa fa-hand-o-right"></i>
+    </button>
+    <span class="tooltip-text">Fazer transferência</span>
+  </div>
+</div>
