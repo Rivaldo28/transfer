@@ -20,7 +20,15 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: "11"
-          distribution: "adoptium"
+          distribution: temurin
+          java-package: jdk
+          architecture: x64
+          check-latest: false
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+          overwrite-settings: true
+          job-status: success
 
       - name: Cache Maven dependencies
         uses: actions/cache@v2
@@ -46,6 +54,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+
       - name: Cache Node.js dependencies
         uses: actions/cache@v2
         with:
@@ -59,12 +68,12 @@ jobs:
           cd transfer-ui
           npm install
 
-      - name: Build Angular application
+      - name: Build Angular app
         run: |
           cd transfer-ui
           npm run build || { echo 'Frontend build failed'; exit 1; }
 
-      - name: Run Angular tests
+      - name: Run tests (Headless Chrome)
         run: |
           cd transfer-ui
-          npm run test -- --watch=false  # Corrigido para usar a opção correta
+          npm run test -- --watch=false --browsers=ChromeHeadless --no-progress --disable-animations || { echo 'Frontend tests failed'; exit 1; }
