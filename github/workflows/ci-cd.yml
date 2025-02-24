@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - master # Altere para o nome do branch que você deseja monitorar
   pull_request:
     branches:
       - master
@@ -31,8 +31,8 @@ jobs:
 
       - name: Build and test Spring Boot
         run: |
-          cd transfer/transfer-api
-          ./mvnw clean install  # Use ./mvnw se você estiver usando o wrapper do Maven
+          cd transfer-api
+          ./mvnw clean install || { echo 'Backend build failed'; exit 1; }
 
   build-and-test-frontend:
     runs-on: ubuntu-latest
@@ -56,10 +56,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd transfer/transfer-ui
+          cd transfer-ui
           npm install
 
       - name: Build and test Angular
         run: |
-          cd transfer/transfer-ui
-          npm run test -- --watch=false --bail  # Execute os testes do Angular, parando na primeira falha
+          cd transfer-ui
+          npm run build || { echo 'Frontend build failed'; exit 1; }
+          npm run test -- --watch=false --bail
