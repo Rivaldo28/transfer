@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - master # Altere para o nome do branch que você deseja monitorar
   pull_request:
     branches:
       - master
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: "11"
-          distribution: temurin
+          distribution: temurin # Mudado para temurin (nova distribuição do JDK da Adoptium)
           java-package: jdk
           architecture: x64
           check-latest: false
@@ -38,6 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Grant execute permission for mvnw
+        run: chmod +x ./transfer-api/mvnw
+
       - name: Build and test Spring Boot
         run: |
           cd transfer-api
@@ -53,7 +56,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "14" # Altere para a versão do Node.js que você está utilizando
 
       - name: Cache Node.js dependencies
         uses: actions/cache@v2
@@ -76,4 +79,4 @@ jobs:
       - name: Run tests (Headless Chrome)
         run: |
           cd transfer-ui
-          npm run test -- --watch=false --browsers=ChromeHeadless --no-progress --disable-animations || { echo 'Frontend tests failed'; exit 1; }
+          npm run test -- --watch=false --browsers=ChromeHeadless --no-progress || { echo 'Frontend tests failed'; exit 1; }
