@@ -23,9 +23,15 @@ jobs:
           distribution: temurin # Mudado para temurin (nova distribuição do JDK da Adoptium)
           java-package: jdk
           architecture: x64
+          check-latest: false
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+          overwrite-settings: true
+          job-status: success
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/transfer-api/pom.xml') }}
@@ -53,7 +59,7 @@ jobs:
           node-version: "14" # Altere para a versão do Node.js que você está utilizando
 
       - name: Cache Node.js dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/transfer-ui/package-lock.json') }}
